@@ -8,11 +8,11 @@ public class GetWeather : MonoBehaviour
 {
 
     [SerializeField]
-    private  string baseUrl = "https://api.open-meteo.com/v1/forecast?";
+    public  string baseUrl = "https://api.open-meteo.com/v1/forecast?";
    
     public  void CreateUrl(string lat, string lon)
     {
-        string finalUrl= baseUrl+ "latitude=" + lat+ "&longitude=" +lon+ "&current_weather=true";
+        string finalUrl= baseUrl+ "latitude=" + lat+ "&longitude=" +lon+ "&current_weather=true"+"&timezone=IST";
        
         GetWeatherFromUrl(finalUrl);
     }
@@ -57,7 +57,8 @@ public class GetWeather : MonoBehaviour
     {
         JSONNode dataRecieved = JSON.Parse(downloadedData);
         Debug.Log(dataRecieved.ToString());
-       ButtonClick.weatherInformation =  dataRecieved["current_weather"]["temperature"].ToString();
+        ButtonClick.weatherInformation =  dataRecieved["current_weather"]["temperature"].ToString();
+        ToastBar.ShowMessage("Current Temprature is "+dataRecieved["current_weather"]["temperature"].ToString(), ToastBar.Position.bottom, ToastBar.Time.twoSecond);
     }
 
 }

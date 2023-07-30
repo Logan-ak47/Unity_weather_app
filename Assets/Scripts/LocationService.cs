@@ -1,21 +1,21 @@
 
 using System.Collections;
-using System.Collections.Generic;
 using System.Text;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Android;
+
 using UnityEngine.UI;
-using TMPro;
-using System;
 
 public class LocationService : MonoBehaviour
 {
 
-    public TextMeshProUGUI playerLocationText;
+    public Text playerLocationText;
     public GetWeather getWeather;
 
-    public static event Action<string,string> locationInformationRecieved;
+    private void Update()
+    {
+        Debug.Log(UnityEngine.Input.location.status);
+    }
+
     private void Start()
     {
 
@@ -41,9 +41,6 @@ public class LocationService : MonoBehaviour
     {
 
         StringBuilder cRoutineStarting = new StringBuilder();
-        cRoutineStarting.Append("Start");
-        cRoutineStarting.Append("Corotuine");
-        playerLocationText.text = cRoutineStarting.ToString();
         if (!Input.location.isEnabledByUser)
         {
             playerLocationText.text = "User has not enabled location";
@@ -75,7 +72,7 @@ public class LocationService : MonoBehaviour
 
     IEnumerator LocationCoroutine()
     {
-        playerLocationText.text = "It started";
+       
         // Uncomment if you want to test with Unity Remote
 #if UNITY_EDITOR
         yield return new WaitWhile(() => !UnityEditor.EditorApplication.isRemoteConnected);
@@ -116,7 +113,7 @@ public class LocationService : MonoBehaviour
 
         // Editor has a bug which doesn't set the service status to Initializing. So extra wait in Editor.
 #if UNITY_EDITOR
-        int editorMaxWait = 15;
+        int editorMaxWait = 5;
         while (UnityEngine.Input.location.status == LocationServiceStatus.Stopped && editorMaxWait > 0)
         {
             yield return new WaitForSecondsRealtime(1);
@@ -164,7 +161,7 @@ public class LocationService : MonoBehaviour
         }
 
         // Stop service if there is no need to query location updates continuously
-        UnityEngine.Input.location.Stop();
+       // UnityEngine.Input.location.Stop();
     }
 
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-public class SSTools : MonoBehaviour {
+public class ToastBar : MonoBehaviour {
 
     public enum Time
     {
@@ -14,7 +14,7 @@ public class SSTools : MonoBehaviour {
         top,
         bottom
     };
-    public static void ShowMessage ( string msg, SSTools.Position position, SSTools.Time time )
+    public static void ShowMessage ( string msg, ToastBar.Position position, ToastBar.Time time )
     {
 
         //Load message prefab from resources folder

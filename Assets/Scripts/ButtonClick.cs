@@ -25,6 +25,6 @@ public class ButtonClick : MonoBehaviour
         Debug.Log("UnityEngine.Input.location.lastData.latitude+ UnityEngine.Input.location.lastData.longitude" + UnityEngine.Input.location.lastData.latitude + UnityEngine.Input.location.lastData.longitude);
                     
 
-        SSTools.ShowMessage(weatherInformation, SSTools.Position.bottom, SSTools.Time.twoSecond);
+        ToastBar.ShowMessage("Current Temprature is  "+weatherInformation, ToastBar.Position.bottom, ToastBar.Time.threeSecond);
     }
 }
