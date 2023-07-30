@@ -3,12 +3,15 @@ using UnityEngine;
 using System.Collections;
 using System;
 using SimpleJSON;
+using UnityEngine.UI;
+
 
 public class GetWeather : MonoBehaviour
 {
 
     [SerializeField]
     public  string baseUrl = "https://api.open-meteo.com/v1/forecast?";
+    public Button GetWeatherButton;
    
     public  void CreateUrl(string lat, string lon)
     {
@@ -27,8 +30,6 @@ public class GetWeather : MonoBehaviour
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
-            Debug.Log("Url is " + uri);
-            // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();
 
             string[] pages = uri.Split('/');
@@ -56,9 +57,9 @@ public class GetWeather : MonoBehaviour
     public void ConvertDataToJson(string downloadedData)
     {
         JSONNode dataRecieved = JSON.Parse(downloadedData);
-        Debug.Log(dataRecieved.ToString());
         ButtonClick.weatherInformation =  dataRecieved["current_weather"]["temperature"].ToString();
-        ToastBar.ShowMessage("Current Temprature is "+dataRecieved["current_weather"]["temperature"].ToString(), ToastBar.Position.bottom, ToastBar.Time.twoSecond);
+        GetWeatherButton.GetComponentInChildren<Text>().text = "Check Your Current Temprature";
+        GetWeatherButton.interactable = true;
     }
 
 }

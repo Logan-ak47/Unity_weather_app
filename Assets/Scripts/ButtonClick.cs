@@ -1,30 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonClick : MonoBehaviour
 {
     [SerializeField]
+    private Text playerLocationText;
+    
     public static string weatherInformation;
-    // Start is called before the first frame update
-    void Start()
+    public GetWeather getWeather;
+
+
+    private void Awake()
     {
-        
+        getWeather = gameObject.GetComponent<GetWeather>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
     public void OnButtonClick()
     {
-        Debug.Log("Button Clicked"+ weatherInformation);
-        Debug.Log("UnityEngine.Input.location.lastData.latitude+ UnityEngine.Input.location.lastData.longitude" + UnityEngine.Input.location.lastData.latitude + UnityEngine.Input.location.lastData.longitude);
-                    
 
+        var latitude = Input.location.lastData.latitude;
+        var longitude = Input.location.lastData.longitude;
+        Debug.Log("lat and long is "+latitude+","+longitude);
+        playerLocationText.text = "Your Location is " + latitude.ToString() + " lat & " + longitude.ToString() + " long";
+        getWeather.CreateUrl(latitude.ToString(), longitude.ToString());
         ToastBar.ShowMessage("Current Temprature is  "+weatherInformation, ToastBar.Position.bottom, ToastBar.Time.threeSecond);
+
     }
 }

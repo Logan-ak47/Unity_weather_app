@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Weather.unity
+    path: Assets/Scenes/Weather.unity
     guid: a27fe21dbf8edea48aabb0d4d96d77c9
   m_configObjects: {}

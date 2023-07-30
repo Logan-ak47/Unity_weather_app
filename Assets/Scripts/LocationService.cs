@@ -9,74 +9,27 @@ public class LocationService : MonoBehaviour
 {
 
     public Text playerLocationText;
-    public GetWeather getWeather;
+    private GetWeather getWeather;
 
-    private void Update()
+
+    private void Awake()
     {
-        Debug.Log(UnityEngine.Input.location.status);
+        getWeather =gameObject.GetComponent<GetWeather>();
     }
 
     private void Start()
     {
 
-
-        StringBuilder locationString = new StringBuilder();
-        locationString.Append("A");
-        locationString.Append("B");
-
-        playerLocationText.text = locationString.ToString();
-        /*#if UNITY_ANDROID
-                if (!Permission.HasUserAuthorizedPermission(Permission.FineLocation))
-                {
-                    Permission.RequestUserPermission(Permission.FineLocation);
-                }
-        #elif UNITY_IOS
-                          PlayerSettings.iOS.locationUsageDescription = "Details to use location";
-        #endif
-                StartCoroutine(StartLocationService());*/
-
         StartCoroutine(LocationCoroutine());
     }
-    private IEnumerator StartLocationService()
-    {
-
-        StringBuilder cRoutineStarting = new StringBuilder();
-        if (!Input.location.isEnabledByUser)
-        {
-            playerLocationText.text = "User has not enabled location";
-            Debug.Log("User has not enabled location");
-            yield break;
-        }
-        Input.location.Start();
-        while (Input.location.status == LocationServiceStatus.Initializing)
-        {
-            playerLocationText.text = "Initalizing";
-            yield return new WaitForSeconds(1);
-        }
-        if (Input.location.status == LocationServiceStatus.Failed)
-        {
-            playerLocationText.text = "Unable to determine device location";
-            Debug.Log("Unable to determine device location");
-            yield break;
-        }
-        Debug.Log("Latitude : " + Input.location.lastData.latitude);
-        Debug.Log("Longitude : " + Input.location.lastData.longitude);
-        Debug.Log("Altitude : " + Input.location.lastData.altitude);
-
-        StringBuilder locationString = new StringBuilder();
-        locationString.Append(Input.location.lastData.latitude.ToString());
-        locationString.Append(Input.location.lastData.longitude.ToString());
-
-        playerLocationText.text = locationString.ToString();
-    }
-
+  
     IEnumerator LocationCoroutine()
     {
        
         // Uncomment if you want to test with Unity Remote
 #if UNITY_EDITOR
-        yield return new WaitWhile(() => !UnityEditor.EditorApplication.isRemoteConnected);
-        yield return new WaitForSecondsRealtime(5f);
+       /* yield return new WaitWhile(() => !UnityEditor.EditorApplication.isRemoteConnected);
+        yield return new WaitForSecondsRealtime(5f);*/
 #endif
 #if UNITY_EDITOR
         // No permission handling needed in Editor
@@ -127,7 +80,7 @@ public class LocationService : MonoBehaviour
 
             // TODO Failure
             Debug.LogFormat("Timed out");
-            playerLocationText.text = "Trying again Timed Out ";
+            playerLocationText.text = "Request TimeOut ";
             yield break;
         }
 
@@ -136,6 +89,7 @@ public class LocationService : MonoBehaviour
         {
             // TODO Failure
             Debug.LogFormat("Unable to determine device location. Failed with status {0}", UnityEngine.Input.location.status);
+            playerLocationText.text= ("Unable to determine device location. Failed with status "+UnityEngine.Input.location.status).ToString();
             yield break;
         }
         else
@@ -151,13 +105,10 @@ public class LocationService : MonoBehaviour
 
             var latitude = UnityEngine.Input.location.lastData.latitude;
             var longitude = UnityEngine.Input.location.lastData.longitude;
-            Debug.Log("Location is________" + latitude.ToString() + "______" + longitude.ToString());
-
-            playerLocationText.text = latitude.ToString() + "______" + longitude.ToString();
+           
+            playerLocationText.text = "Your Location is " + latitude.ToString() + " lat & " + longitude.ToString() + " long";
             getWeather.CreateUrl(latitude.ToString(), longitude.ToString());
-           // locationInformationRecieved?.Invoke(latitude.ToString(),longitude.ToString());
-
-            // TODO success do something with location
+          
         }
 
         // Stop service if there is no need to query location updates continuously
