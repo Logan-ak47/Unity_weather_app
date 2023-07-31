@@ -57,9 +57,17 @@ public class GetWeather : MonoBehaviour
     public void ConvertDataToJson(string downloadedData)
     {
         JSONNode dataRecieved = JSON.Parse(downloadedData);
-        ButtonClick.weatherInformation =  dataRecieved["current_weather"]["temperature"].ToString();
+        string weatherInfo = dataRecieved["current_weather"]["temperature"].ToString();
+        ToastBar.ShowMessage("Current Temprature is  " + weatherInfo, ToastBar.Position.bottom, ToastBar.Time.threeSecond);
+
+    }
+
+    public void EnableButton()
+    {
         GetWeatherButton.GetComponentInChildren<Text>().text = "Check Your Current Temprature";
         GetWeatherButton.interactable = true;
     }
+
+    
 
 }

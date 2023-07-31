@@ -24,7 +24,7 @@ public class ButtonClick : MonoBehaviour
         Debug.Log("lat and long is "+latitude+","+longitude);
         playerLocationText.text = "Your Location is " + latitude.ToString() + " lat & " + longitude.ToString() + " long";
         getWeather.CreateUrl(latitude.ToString(), longitude.ToString());
-        ToastBar.ShowMessage("Current Temprature is  "+weatherInformation, ToastBar.Position.bottom, ToastBar.Time.threeSecond);
-
     }
+
+
 }

@@ -9,6 +9,8 @@ public class LocationService : MonoBehaviour
 {
 
     public Text playerLocationText;
+
+
     private GetWeather getWeather;
 
 
@@ -25,11 +27,11 @@ public class LocationService : MonoBehaviour
   
     IEnumerator LocationCoroutine()
     {
-       
+
         // Uncomment if you want to test with Unity Remote
 #if UNITY_EDITOR
-       /* yield return new WaitWhile(() => !UnityEditor.EditorApplication.isRemoteConnected);
-        yield return new WaitForSecondsRealtime(5f);*/
+        yield return new WaitWhile(() => !UnityEditor.EditorApplication.isRemoteConnected);
+        yield return new WaitForSecondsRealtime(5f);
 #endif
 #if UNITY_EDITOR
         // No permission handling needed in Editor
@@ -107,7 +109,7 @@ public class LocationService : MonoBehaviour
             var longitude = UnityEngine.Input.location.lastData.longitude;
            
             playerLocationText.text = "Your Location is " + latitude.ToString() + " lat & " + longitude.ToString() + " long";
-            getWeather.CreateUrl(latitude.ToString(), longitude.ToString());
+            getWeather.EnableButton();
           
         }
 
